@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+    <script type="text/javascript" src="sudoku.js"></script>
+  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        background-color: rgb(9, 119, 146);
+    }
+    div{
+        text-align: center;
+        
+    }
+    
+    .heading{
+        text-align: center;
+        text-decoration: underline;
+              font-size: 400%;
+              background-color: aquamarine;
+              border-radius: 0px;
+              margin: 0px;
+              border: 0px;
+              padding: 0px;
+            
+              
+              
+             
+              
+             
+    }
+    table{
+    border-collapse: collapse;
+       
+        margin: 0px auto;
+        font-size: 2em;
+      
+    
+    }
+    td{
+        border:solid thin white;
+      
+        height: 1.5em;
+        width: 1.5em;
+        padding: 0;
+        text-align: center;
+       
+        
+    }
+  
+    colgroup,tbody{
+        border:solid medium white;
+        
+    }
+   h2{
+    border-radius: 25px;
+       text-align: center;
+       background-color: turquoise;
+       margin-left: 700px;
+    margin-right: 700px;
+     
+   }
+   #cl{
+       border-radius: 25px;
+    background-color: yellowgreen;
+    margin-left: 700px;
+    margin-right: 700px;
+   
+}
+    
+</style>
+
+<body>
+    <p class="heading"> SUDOKU SOLVER</p>
+    <br>
+    <br>
+    <br>
+    <div > 
+<table id ="sudoku-board">
+    <colgroup>
+    <col> <col> <col> 
+    <colgroup><col> <col> <col>
+        <colgroup><col> <col> <col>
+    <tbody>
+    <tr>
+        <td contenteditable="true"></td ><td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+    </tr>
+    <tr>
+        <td contenteditable="true"></td><td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+    </tr>
+    <tr>
+        <td contenteditable="true"></td ><td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+    </tr>
+    </tbody><tbody>
+        <tr>
+            <td contenteditable="true"></td ><td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+        </tr>
+        <tr>
+            <td contenteditable="true"></td><td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+        </tr>
+        <tr>
+            <td contenteditable="true"></td ><td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+        </tr>
+</tbody><tbody>
+    <tr>
+        <td contenteditable="true"></td ><td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+    </tr>
+    <tr>
+        <td contenteditable="true"></td><td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+    </tr>
+    <tr>
+        <td contenteditable="true"></td ><td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+    </tr>
+    </tbody>
+
+</table>
+    </div>
+     <h2 id="solve" >Solve</h2>
+     
+     <h2 id="cl">Clear</h2>
+</body>
+<script type="text/javascript">
+     document.getElementById("sudoku-board").addEventListener("keyup", function(event){
+        if(event.target && event.target.nodeName=="TD"){
+            var validNum = /[1-9]/;
+      var tdEl = event.target;
+            if(tdEl.innerText.length > 0 && validNum.toLocaleString(tdEl.innerText[0])){
+                tdEl.innerText=tdEl.innerText[0];
+            
+            }
+            else{
+                tdEl.innerText="";
+            }
+        }
+       
+    });
+    document.getElementById("cl").addEventListener("click",function(event){
+        var tds=document.getElementsByTagName("td");
+        for(var i=0;i<tds.length;i++){
+            tds[i].innerText="";
+        }
+
+    });
+    document.getElementById("solve").addEventListener("click",solveboard);
+    function solveboard(){
+      
+        validNum=/[1-9]/;
+        var boardString="";
+        var tds=document.getElementsByTagName("td");
+        for(var i=0;i<tds.length;i++){
+            if(validNum.test(tds[i].innerText[0])){
+                boardString +=tds[i].innerText;
+            }
+            else{
+                boardString +="-";
+            }
+        }
+        var solution = solve(boardString);
+       console.log(solve(boardString));
+     
+    if (solution) {
+      stringToBoard(solution);
+    } else {
+      alert("Invalid board!");
+    }
+        //console.log(string);
+        
+        
+    }
+    function stringToBoard(string) {
+    var currentCell;
+    var validNum = /[1-9]/;
+    var cells = string.split("");
+    var tds = document.getElementsByTagName("td");
+    for (var i = 0; i < tds.length; i++) {
+      currentCell = cells.shift();
+      if (validNum.test(currentCell)) {
+        tds[i].innerText = currentCell;
+      }
+    }
+  }
+    
+
+
+
+    
+</script>
+</html>
